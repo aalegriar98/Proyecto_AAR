@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar Mantenimiento</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+</head>
+<body>
+    <h1>Eliminar Mantenimiento</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <p>¿Seguro que deseas eliminar este mantenimiento?</p>
+        <p><strong>{{ mantenimiento }}</strong></p>
+
+        <button type="submit">Sí, eliminar</button>
+        <a href="{% url 'listar_mantenimientos' %}">Cancelar</a>
+    </form>
+</body>
+</html>

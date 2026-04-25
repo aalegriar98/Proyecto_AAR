@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Gestión de Herramientas y Préstamos</title>
+    <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+</head>
+<body>
+    <h1>Sistema de Gestión de Herramientas y Préstamos</h1>
+
+    <p style="text-align:center;">
+        Bienvenido, {{ request.user.username }}
+    </p>
+
+    <div class="dashboard">
+        <div class="card">
+            <h2>{{ total_herramientas }}</h2>
+            <p>Total herramientas</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ disponibles }}</h2>
+            <p>Disponibles</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ prestadas }}</h2>
+            <p>Prestadas</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ mantencion }}</h2>
+            <p>En mantención</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ total_prestamos }}</h2>
+            <p>Préstamos</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ total_mantenimientos }}</h2>
+            <p>Mantenimientos</p>
+        </div>
+    </div>
+
+    <nav>
+        <h3>Consultas</h3>
+
+        <a href="{% url 'alertas_atrasos' %}">Alertas de Atrasos</a>
+        <a href="{% url 'listar_herramientas' %}">Ver Herramientas</a>
+        <a href="{% url 'herramientas_disponibles' %}">Herramientas Disponibles</a>
+        <a href="{% url 'listar_prestamos' %}">Ver Préstamos</a>
+        <a href="{% url 'listar_usuarios' %}">Ver Usuarios</a>
+        <a href="{% url 'listar_mantenimientos' %}">Ver Mantenimientos</a>
+
+        {% if request.user.usuario.id_rol.nombre_rol == 'Administrador' %}
+            <h3>Gestión</h3>
+
+            <a href="{% url 'registrar_herramienta' %}">Registrar Herramienta</a>
+            <a href="{% url 'registrar_usuario' %}">Registrar Usuario</a>
+            <a href="{% url 'registrar_prestamo' %}">Registrar Préstamo</a>
+            <a href="{% url 'registrar_mantenimiento' %}">Registrar Mantenimiento</a>
+        {% endif %}
+
+        <h3>Sesión</h3>
+        <a href="{% url 'logout' %}">Cerrar Sesión</a>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alertas de Atrasos</title>
+    <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+<body>
+
+<h1>Alertas de Atrasos</h1>
+
+<nav>
+    <a href="{% url 'inicio' %}">Inicio</a>
+</nav>
+
+{% if atrasos %}
+<table>
+    <tr>
+        <th>Usuario</th>
+        <th>Herramienta</th>
+        <th>Fecha devolución</th>
+        <th>Fecha entrega real</th>
+        <th>Estado</th>
+    </tr>
+
+    {% for prestamo in atrasos %}
+    <tr>
+        <td>{{ prestamo.id_usuario.nombre }}</td>
+        <td>{{ prestamo.id_herramienta.nombre }}</td>
+        <td>{{ prestamo.fecha_devolucion }}</td>
+        <td>{{ prestamo.fecha_entrega_real }}</td>
+        <td class="alerta">Atrasado</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<div class="mensaje-exito">
+    No existen atrasos.
+</div>
+{% endif %}
+
+</body>
+</html>

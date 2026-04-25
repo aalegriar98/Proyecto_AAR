@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Herramientas</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+</head>
+<body>
+    <h1>Listado de Herramientas</h1>
+
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>N° Serie</th>
+            <th>Estado</th>
+            <th>Categoría</th>
+            <th>Acción</th>
+        </tr>
+
+        {% for herramienta in herramientas %}
+        <tr>
+            <td>{{ herramienta.nombre }}</td>
+            <td>{{ herramienta.marca }}</td>
+            <td>{{ herramienta.modelo }}</td>
+            <td>{{ herramienta.numero_serie }}</td>
+            <td>{{ herramienta.estado }}</td>
+            <td>{{ herramienta.id_categoria }}</td>
+            <td>
+    <a href="{% url 'cambiar_estado_herramienta' herramienta.id_herramienta %}">
+        Cambiar estado
+    </a>
+</td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'inicio' %}">Volver al inicio</a>
+</body>
+</html>

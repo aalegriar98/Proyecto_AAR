@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+</head>
+<body class="login-body">
+
+    <div class="login-container">
+        <h1>Sistema de Gestión</h1>
+        <h2>Iniciar Sesión</h2>
+
+        <form method="POST" class="login-form">
+            {% csrf_token %}
+
+            <label>Usuario</label>
+            <input type="text" name="username" required>
+
+            <label>Contraseña</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">Ingresar</button>
+        </form>
+
+        {% if error %}
+            <p class="error-login">{{ error }}</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

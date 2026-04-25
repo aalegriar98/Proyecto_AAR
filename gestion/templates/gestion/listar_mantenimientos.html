@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Mantenimientos</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+</head>
+<body>
+    <h1>Listado de Mantenimientos</h1>
+
+    <table>
+        <tr>
+            <th>Herramienta</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Descripción</th>
+            <th>Acción</th>
+        </tr>
+
+        {% for mantenimiento in mantenimientos %}
+        <tr>
+            <td>{{ mantenimiento.id_herramienta }}</td>
+            <td>{{ mantenimiento.fecha_mantenimiento }}</td>
+            <td>{{ mantenimiento.tipo_mantenimiento }}</td>
+            <td>{{ mantenimiento.descripcion }}</td>
+            <td>
+                <a href="{% url 'eliminar_mantenimiento' mantenimiento.id_mantenimiento %}" class="icono-eliminar">🗑️</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'inicio' %}">Volver al inicio</a>
+</body>
+</html>

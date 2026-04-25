@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Préstamos</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+</head>
+<body>
+
+    <h1>Listado de Préstamos</h1>
+
+    <table>
+        <tr>
+            <th>Usuario</th>
+            <th>Herramienta</th>
+            <th>Fecha Préstamo</th>
+            <th>Fecha Devolución</th>
+            <th>Fecha Entrega Real</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+
+        {% for prestamo in prestamos %}
+        <tr>
+            <td>{{ prestamo.id_usuario }}</td>
+            <td>{{ prestamo.id_herramienta }}</td>
+            <td>{{ prestamo.fecha_prestamo }}</td>
+            <td>{{ prestamo.fecha_devolucion }}</td>
+            <td>{{ prestamo.fecha_entrega_real }}</td>
+            <td>{{ prestamo.estado_prestamo }}</td>
+            <td>
+                <a href="{% url 'eliminar_prestamo' prestamo.id_prestamo %}" class="icono-eliminar">🗑️</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'inicio' %}">Volver al inicio</a>
+
+</body>
+</html>
