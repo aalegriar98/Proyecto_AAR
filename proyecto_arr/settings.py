@@ -1,3 +1,5 @@
+import os
+
 """
 Django settings for proyecto_arr project.
 
@@ -77,11 +79,11 @@ WSGI_APPLICATION = 'proyecto_arr.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'proyecto_arr',
-        'USER': 'root',
-        'PASSWORD': 'root12345',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': os.environ.get('MYSQLDATABASE'),
+        'USER': os.environ.get('MYSQLUSER'),
+        'PASSWORD': os.environ.get('MYSQLPASSWORD'),
+        'HOST': os.environ.get('MYSQLHOST'),
+        'PORT': os.environ.get('MYSQLPORT'),
     }
 }
 
