@@ -130,3 +130,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/'
+
+if os.environ.get('RAILWAY_ENVIRONMENT'):
+    from django.contrib.auth.models import User
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser('admin', 'admin@email.com', 'admin123')
