@@ -28,4 +28,6 @@ urlpatterns = [
     path('eliminar-mantenimiento/<int:id>/', views.eliminar_mantenimiento, name='eliminar_mantenimiento'),
     path('cambiar-estado-herramienta/<int:id>/', views.cambiar_estado_herramienta, name='cambiar_estado_herramienta'),
     path('alertas-atrasos/', views.alertas_atrasos, name='alertas_atrasos'),
+    path('eliminar-herramienta/<int:id>/', views.eliminar_herramienta, name='eliminar_herramienta'),
+    
 ]

@@ -1,38 +1,84 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Listado de Usuarios</title>
-    {% load static %}
+
     <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
 </head>
+
 <body>
-    <h1>Listado de Usuarios</h1>
 
-    <table>
-        <tr>
-            <th>Nombre</th>
-            <th>Correo</th>
-            <th>Teléfono</th>
-            <th>Área</th>
-            <th>Rol</th>
-            <th>Acción</th>
-        </tr>
+<div class="layout">
 
-        {% for usuario in usuarios %}
-        <tr>
-            <td>{{ usuario.nombre }}</td>
-            <td>{{ usuario.correo }}</td>
-            <td>{{ usuario.telefono }}</td>
-            <td>{{ usuario.area }}</td>
-            <td>{{ usuario.id_rol }}</td>
-            <td>
-                <a href="{% url 'editar_usuario' usuario.id_usuario %}">Editar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    <aside class="sidebar">
 
-    <a href="{% url 'inicio' %}">Volver al inicio</a>
+        <div class="logo-box">
+            <img src="{% static 'gestion/img/logo AAR.png' %}" alt="Logo AAR Gestión">
+        </div>
+
+        <nav class="menu sidebar-menu">
+            <a href="{% url 'inicio' %}">Dashboard</a>
+            <a href="{% url 'listar_herramientas' %}">Herramientas</a>
+            <a href="{% url 'herramientas_disponibles' %}">Disponibles</a>
+            <a href="{% url 'listar_prestamos' %}">Préstamos</a>
+            <a href="{% url 'listar_usuarios' %}" class="active">Usuarios</a>
+            <a href="{% url 'listar_mantenimientos' %}">Mantenciones</a>
+            <a href="{% url 'alertas_atrasos' %}">Alertas</a>
+
+            {% if request.user.usuario.id_rol.nombre_rol == 'Administrador' %}
+                <div class="menu-title">Gestión</div>
+
+                <a href="{% url 'registrar_herramienta' %}">Registrar herramienta</a>
+                <a href="{% url 'registrar_usuario' %}">Registrar usuario</a>
+                <a href="{% url 'registrar_prestamo' %}">Registrar préstamo</a>
+                <a href="{% url 'registrar_mantenimiento' %}">Registrar mantención</a>
+            {% endif %}
+        </nav>
+
+        <a href="{% url 'logout' %}" class="logout-sidebar">Cerrar sesión</a>
+
+    </aside>
+
+    <main class="main-content">
+
+        <div class="topbar">
+            <div>
+                <h1>Listado de Usuarios 👥</h1>
+                <p>Visualización general de usuarios registrados en el sistema</p>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Área</th>
+                <th>Rol</th>
+                <th>Acción</th>
+            </tr>
+
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.nombre }}</td>
+                <td>{{ usuario.correo }}</td>
+                <td>{{ usuario.telefono }}</td>
+                <td>{{ usuario.area }}</td>
+                <td>{{ usuario.id_rol }}</td>
+                <td>
+                    <a href="{% url 'editar_usuario' usuario.id_usuario %}">
+                        Editar
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </main>
+
+</div>
+
 </body>
 </html>

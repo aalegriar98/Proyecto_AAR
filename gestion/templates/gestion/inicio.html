@@ -6,66 +6,87 @@
     <title>Sistema de Gestión de Herramientas y Préstamos</title>
     <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
 </head>
+
 <body>
-    <h1>Sistema de Gestión de Herramientas y Préstamos</h1>
 
-    <p style="text-align:center;">
-        Bienvenido, {{ request.user.username }}
-    </p>
+<div class="layout">
 
-    <div class="dashboard">
-        <div class="card">
-            <h2>{{ total_herramientas }}</h2>
-            <p>Total herramientas</p>
+    <aside class="sidebar">
+
+        <div class="logo-box">
+            <img src="{% static 'gestion/img/logo AAR.png' %}" alt="Logo AAR Gestión">
         </div>
 
-        <div class="card">
-            <h2>{{ disponibles }}</h2>
-            <p>Disponibles</p>
-        </div>
+        <nav class="menu sidebar-menu">
+            <a href="{% url 'inicio' %}" class="active">Dashboard</a>
+            <a href="{% url 'listar_herramientas' %}">Herramientas</a>
+            <a href="{% url 'herramientas_disponibles' %}">Disponibles</a>
+            <a href="{% url 'listar_prestamos' %}">Préstamos</a>
+            <a href="{% url 'listar_usuarios' %}">Usuarios</a>
+            <a href="{% url 'listar_mantenimientos' %}">Mantenciones</a>
+            <a href="{% url 'alertas_atrasos' %}">Alertas</a>
 
-        <div class="card">
-            <h2>{{ prestadas }}</h2>
-            <p>Prestadas</p>
-        </div>
+            {% if request.user.usuario.id_rol.nombre_rol == 'Administrador' %}
+                <div class="menu-title">Gestión</div>
+                <a href="{% url 'registrar_herramienta' %}">Registrar herramienta</a>
+                <a href="{% url 'registrar_usuario' %}">Registrar usuario</a>
+                <a href="{% url 'registrar_prestamo' %}">Registrar préstamo</a>
+                <a href="{% url 'registrar_mantenimiento' %}">Registrar mantención</a>
+            {% endif %}
+        </nav>
 
-        <div class="card">
-            <h2>{{ mantencion }}</h2>
-            <p>En mantención</p>
-        </div>
+        <a href="{% url 'logout' %}" class="logout-sidebar">Cerrar sesión</a>
 
-        <div class="card">
-            <h2>{{ total_prestamos }}</h2>
-            <p>Préstamos</p>
-        </div>
+    </aside>
 
-        <div class="card">
-            <h2>{{ total_mantenimientos }}</h2>
-            <p>Mantenimientos</p>
-        </div>
-    </div>
+    <main class="main-content">
 
-    <nav>
-        <h3>Consultas</h3>
+        <header class="topbar">
+            <div>
+                <h1>Bienvenido, {{ request.user.username }} 👋</h1>
+                <p>Sistema de Gestión de Herramientas y Préstamos</p>
+            </div>
 
-        <a href="{% url 'alertas_atrasos' %}">Alertas de Atrasos</a>
-        <a href="{% url 'listar_herramientas' %}">Ver Herramientas</a>
-        <a href="{% url 'herramientas_disponibles' %}">Herramientas Disponibles</a>
-        <a href="{% url 'listar_prestamos' %}">Ver Préstamos</a>
-        <a href="{% url 'listar_usuarios' %}">Ver Usuarios</a>
-        <a href="{% url 'listar_mantenimientos' %}">Ver Mantenimientos</a>
+            <a href="{% url 'logout' %}" class="logout-btn">Cerrar sesión</a>
+        </header>
 
-        {% if request.user.usuario.id_rol.nombre_rol == 'Administrador' %}
-            <h3>Gestión</h3>
+        <section class="dashboard">
 
-            <a href="{% url 'registrar_herramienta' %}">Registrar Herramienta</a>
-            <a href="{% url 'registrar_usuario' %}">Registrar Usuario</a>
-            <a href="{% url 'registrar_prestamo' %}">Registrar Préstamo</a>
-            <a href="{% url 'registrar_mantenimiento' %}">Registrar Mantenimiento</a>
-        {% endif %}
+            <div class="card">
+                <h2>{{ total_herramientas }}</h2>
+                <p>Total herramientas</p>
+            </div>
 
-        <h3>Sesión</h3>
-        <a href="{% url 'logout' %}">Cerrar Sesión</a>
-    </nav>
+            <div class="card">
+                <h2>{{ disponibles }}</h2>
+                <p>Disponibles</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ prestadas }}</h2>
+                <p>Prestadas</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ mantencion }}</h2>
+                <p>En mantención</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ total_prestamos }}</h2>
+                <p>Préstamos</p>
+            </div>
+
+            <div class="card">
+                <h2>{{ total_mantenimientos }}</h2>
+                <p>Mantenimientos</p>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
 </body>
 </html>

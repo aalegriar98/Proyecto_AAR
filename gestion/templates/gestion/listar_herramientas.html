@@ -1,43 +1,220 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
+
     <title>Listado de Herramientas</title>
-    {% load static %}
+
     <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+
 </head>
+
 <body>
-    <h1>Listado de Herramientas</h1>
 
-    <table>
-        <tr>
-            <th>Nombre</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>N° Serie</th>
-            <th>Estado</th>
-            <th>Categoría</th>
-            <th>Acción</th>
-        </tr>
+<div class="layout">
 
-        {% for herramienta in herramientas %}
-        <tr>
-            <td>{{ herramienta.nombre }}</td>
-            <td>{{ herramienta.marca }}</td>
-            <td>{{ herramienta.modelo }}</td>
-            <td>{{ herramienta.numero_serie }}</td>
-            <td>{{ herramienta.estado }}</td>
-            <td>{{ herramienta.id_categoria }}</td>
-            <td>
-    <a href="{% url 'cambiar_estado_herramienta' herramienta.id_herramienta %}">
-        Cambiar estado
-    </a>
-</td>
-            
-        </tr>
-        {% endfor %}
-    </table>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-    <a href="{% url 'inicio' %}">Volver al inicio</a>
+        <div class="logo-box">
+            <img src="{% static 'gestion/img/logo AAR.png' %}" alt="Logo AAR Gestión">
+        </div>
+
+        <nav class="menu sidebar-menu">
+
+            <a href="{% url 'inicio' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'listar_herramientas' %}" class="active">
+                Herramientas
+            </a>
+
+            <a href="{% url 'herramientas_disponibles' %}">
+                Disponibles
+            </a>
+
+            <a href="{% url 'listar_prestamos' %}">
+                Préstamos
+            </a>
+
+            <a href="{% url 'listar_usuarios' %}">
+                Usuarios
+            </a>
+
+            <a href="{% url 'listar_mantenimientos' %}">
+                Mantenciones
+            </a>
+
+            <a href="{% url 'alertas_atrasos' %}">
+                Alertas
+            </a>
+
+            {% if request.user.usuario.id_rol.nombre_rol == 'Administrador' %}
+
+                <div class="menu-title">
+                    Gestión
+                </div>
+
+                <a href="{% url 'registrar_herramienta' %}">
+                    Registrar herramienta
+                </a>
+
+                <a href="{% url 'registrar_usuario' %}">
+                    Registrar usuario
+                </a>
+
+                <a href="{% url 'registrar_prestamo' %}">
+                    Registrar préstamo
+                </a>
+
+                <a href="{% url 'registrar_mantenimiento' %}">
+                    Registrar mantención
+                </a>
+
+            {% endif %}
+
+        </nav>
+
+        <a href="{% url 'logout' %}" class="logout-sidebar">
+            Cerrar sesión
+        </a>
+
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Listado de Herramientas 🔧</h1>
+
+                <p>
+                    Visualización general de herramientas registradas
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- NOTIFICACIONES -->
+        {% if messages %}
+            {% for message in messages %}
+
+                <div class="notificacion">
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+        {% endif %}
+
+        <table>
+
+            <tr>
+
+                <th>Nombre</th>
+
+                <th>Marca</th>
+
+                <th>Modelo</th>
+
+                <th>N° Serie</th>
+
+                <th>Estado</th>
+
+                <th>Categoría</th>
+
+                <th>Acciones</th>
+
+            </tr>
+
+            {% for herramienta in herramientas %}
+
+            <tr>
+
+                <td>
+                    {{ herramienta.nombre }}
+                </td>
+
+                <td>
+                    {{ herramienta.marca }}
+                </td>
+
+                <td>
+                    {{ herramienta.modelo }}
+                </td>
+
+                <td>
+                    {{ herramienta.numero_serie }}
+                </td>
+
+                <td>
+
+                    {% if herramienta.estado == "Disponible" %}
+
+                        <span style="color: green; font-weight: bold;">
+
+                            ● Disponible
+
+                        </span>
+
+                    {% elif herramienta.estado == "Prestado" %}
+
+                        <span style="color: orange; font-weight: bold;">
+
+                            ● Prestado
+
+                        </span>
+
+                    {% elif herramienta.estado == "En Mantención" %}
+
+                        <span style="color: red; font-weight: bold;">
+
+                            ● En Mantención
+
+                        </span>
+
+                    {% else %}
+
+                        {{ herramienta.estado }}
+
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    {{ herramienta.id_categoria }}
+
+                </td>
+
+                <td>
+
+                    <a href="{% url 'eliminar_herramienta' herramienta.id_herramienta %}"
+                       class="btn-eliminar">
+
+                        Eliminar
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </main>
+
+</div>
+
 </body>
 </html>

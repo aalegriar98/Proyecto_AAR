@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
+from django.contrib import messages
 
 from .forms import HerramientaForm, UsuarioForm, PrestamoForm, MantenimientoForm
 from .models import Usuario, Herramienta, Prestamo, Mantenimiento
@@ -15,6 +16,7 @@ def registrar_herramienta(request):
         form = HerramientaForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Herramienta registrada correctamente.")
             return redirect('registrar_herramienta')
     else:
         form = HerramientaForm()
@@ -29,6 +31,7 @@ def registrar_usuario(request):
         form = UsuarioForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Usuario registrado correctamente.")
             return redirect('registrar_usuario')
     else:
         form = UsuarioForm()
@@ -51,6 +54,8 @@ def registrar_prestamo(request):
                 herramienta.estado = 'Disponible'
 
             herramienta.save()
+
+            messages.success(request, "Préstamo registrado correctamente.")
             return redirect('registrar_prestamo')
     else:
         form = PrestamoForm()
@@ -67,7 +72,8 @@ def editar_usuario(request, id):
         form = UsuarioForm(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
-            return redirect('editar_usuario', id=id)
+            messages.success(request, "Usuario actualizado correctamente.")
+            return redirect('listar_usuarios')
     else:
         form = UsuarioForm(instance=usuario)
 
@@ -85,7 +91,8 @@ def registrar_mantenimiento(request):
             herramienta.estado = 'En mantención'
             herramienta.save()
 
-            return redirect('listar_mantenimientos')
+            messages.success(request, "Mantenimiento registrado correctamente.")
+            return redirect('registrar_mantenimiento')
     else:
         form = MantenimientoForm()
 
@@ -136,6 +143,7 @@ def eliminar_prestamo(request, id):
         herramienta.estado = 'Disponible'
         herramienta.save()
 
+        messages.success(request, "Préstamo eliminado correctamente.")
         return redirect('listar_prestamos')
 
     return render(request, 'gestion/eliminar_prestamo.html', {'prestamo': prestamo})
@@ -152,6 +160,7 @@ def cambiar_estado_herramienta(request, id):
         herramienta.estado = 'Prestado'
 
     herramienta.save()
+    messages.success(request, "Estado de herramienta actualizado correctamente.")
     return redirect('listar_herramientas')
 
 
@@ -179,6 +188,7 @@ def eliminar_mantenimiento(request, id):
         herramienta.estado = 'Disponible'
         herramienta.save()
 
+        messages.success(request, "Mantenimiento eliminado correctamente.")
         return redirect('listar_mantenimientos')
 
     return render(request, 'gestion/eliminar_mantenimiento.html', {'mantenimiento': mantenimiento})
@@ -214,4 +224,18 @@ def alertas_atrasos(request):
 
     return render(request, 'gestion/alertas_atrasos.html', {
         'atrasos': atrasos
+    })
+
+@login_required
+@rol_requerido('Administrador')
+def eliminar_herramienta(request, id):
+    herramienta = get_object_or_404(Herramienta, id_herramienta=id)
+
+    if request.method == 'POST':
+        herramienta.delete()
+        messages.success(request, "Herramienta eliminada correctamente.")
+        return redirect('listar_herramientas')
+
+    return render(request, 'gestion/eliminar_herramienta.html', {
+        'herramienta': herramienta
     })

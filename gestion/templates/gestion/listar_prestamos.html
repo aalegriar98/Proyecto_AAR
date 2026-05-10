@@ -1,42 +1,118 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Listado de Préstamos</title>
-    {% load static %}
+
     <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
 </head>
+
 <body>
 
-    <h1>Listado de Préstamos</h1>
+<div class="layout">
 
-    <table>
-        <tr>
-            <th>Usuario</th>
-            <th>Herramienta</th>
-            <th>Fecha Préstamo</th>
-            <th>Fecha Devolución</th>
-            <th>Fecha Entrega Real</th>
-            <th>Estado</th>
-            <th>Acción</th>
-        </tr>
+    <aside class="sidebar">
 
-        {% for prestamo in prestamos %}
-        <tr>
-            <td>{{ prestamo.id_usuario }}</td>
-            <td>{{ prestamo.id_herramienta }}</td>
-            <td>{{ prestamo.fecha_prestamo }}</td>
-            <td>{{ prestamo.fecha_devolucion }}</td>
-            <td>{{ prestamo.fecha_entrega_real }}</td>
-            <td>{{ prestamo.estado_prestamo }}</td>
-            <td>
-                <a href="{% url 'eliminar_prestamo' prestamo.id_prestamo %}" class="icono-eliminar">🗑️</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+        <div class="logo-box">
+            <img src="{% static 'gestion/img/logo AAR.png' %}" alt="Logo AAR Gestión">
+        </div>
 
-    <a href="{% url 'inicio' %}">Volver al inicio</a>
+        <nav class="menu sidebar-menu">
+            <a href="{% url 'inicio' %}">Dashboard</a>
+            <a href="{% url 'listar_herramientas' %}">Herramientas</a>
+            <a href="{% url 'herramientas_disponibles' %}">Disponibles</a>
+            <a href="{% url 'listar_prestamos' %}" class="active">Préstamos</a>
+            <a href="{% url 'listar_usuarios' %}">Usuarios</a>
+            <a href="{% url 'listar_mantenimientos' %}">Mantenciones</a>
+            <a href="{% url 'alertas_atrasos' %}">Alertas</a>
+
+            {% if request.user.usuario.id_rol.nombre_rol == 'Administrador' %}
+                <div class="menu-title">Gestión</div>
+
+                <a href="{% url 'registrar_herramienta' %}">Registrar herramienta</a>
+                <a href="{% url 'registrar_usuario' %}">Registrar usuario</a>
+                <a href="{% url 'registrar_prestamo' %}">Registrar préstamo</a>
+                <a href="{% url 'registrar_mantenimiento' %}">Registrar mantención</a>
+            {% endif %}
+        </nav>
+
+        <a href="{% url 'logout' %}" class="logout-sidebar">Cerrar sesión</a>
+
+    </aside>
+
+    <main class="main-content">
+
+        <div class="topbar">
+            <div>
+                <h1>Listado de Préstamos 📋</h1>
+                <p>Registro general de préstamos de herramientas</p>
+            </div>
+        </div>
+
+        <table>
+            <tr>
+                <th>Usuario</th>
+                <th>Herramienta</th>
+                <th>Fecha Préstamo</th>
+                <th>Fecha Devolución</th>
+                <th>Fecha Entrega Real</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+
+            {% for prestamo in prestamos %}
+            <tr>
+                <td>{{ prestamo.id_usuario }}</td>
+                <td>{{ prestamo.id_herramienta }}</td>
+                <td>{{ prestamo.fecha_prestamo }}</td>
+                <td>{{ prestamo.fecha_devolucion }}</td>
+
+                <td>
+                    {% if prestamo.fecha_entrega_real %}
+                        {{ prestamo.fecha_entrega_real }}
+                    {% else %}
+                        <span style="color: #6b7280; font-weight: bold;">
+                            Pendiente
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if prestamo.estado_prestamo == "Activo" %}
+                        <span style="color: orange; font-weight: bold;">
+                            ● Activo
+                        </span>
+
+                    {% elif prestamo.estado_prestamo == "Devuelto" %}
+                        <span style="color: green; font-weight: bold;">
+                            ● Devuelto
+                        </span>
+
+                    {% elif prestamo.estado_prestamo == "Atrasado" %}
+                        <span style="color: red; font-weight: bold;">
+                            ● Atrasado
+                        </span>
+
+                    {% else %}
+                        <span style="font-weight: bold;">
+                            {{ prestamo.estado_prestamo }}
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <a href="{% url 'eliminar_prestamo' prestamo.id_prestamo %}" class="icono-eliminar">
+                        🗑️
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </main>
+
+</div>
 
 </body>
 </html>

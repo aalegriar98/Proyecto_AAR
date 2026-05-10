@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminar Herramienta</title>
+    <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
+</head>
+<body>
+
+<div class="layout">
+
+    <main class="main-content">
+        <h1>Eliminar herramienta</h1>
+
+        <p>¿Estás seguro de que deseas eliminar esta herramienta?</p>
+
+        <p><strong>{{ herramienta.nombre_herramienta }}</strong></p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <button type="submit" class="btn-eliminar">
+                Sí, eliminar
+            </button>
+
+            <a href="{% url 'listar_herramientas' %}">
+                Cancelar
+            </a>
+        </form>
+    </main>
+
+</div>
+
+</body>
+</html>

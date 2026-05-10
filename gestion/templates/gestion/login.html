@@ -1,18 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Iniciar Sesión</title>
-    {% load static %}
+
     <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
 </head>
+
 <body class="login-body">
 
     <div class="login-container">
-        <h1>Sistema de Gestión</h1>
-        <h2>Iniciar Sesión</h2>
 
+        <!-- LOGO -->
+        <div class="logo-box">
+            <img src="{% static 'gestion/img/logo AAR.png' %}" alt="Logo AAR Gestión">
+        </div>
+
+        <!-- TÍTULOS -->
+        <h1>AAR Gestión</h1>
+
+        <h2>
+            Sistema de Gestión de Herramientas y Préstamos
+        </h2>
+
+        <!-- FORMULARIO -->
         <form method="POST" class="login-form">
+
             {% csrf_token %}
 
             <label>Usuario</label>
@@ -21,12 +35,18 @@
             <label>Contraseña</label>
             <input type="password" name="password" required>
 
-            <button type="submit">Ingresar</button>
+            <button type="submit">
+                Ingresar
+            </button>
+
         </form>
 
         {% if error %}
-            <p class="error-login">{{ error }}</p>
+            <p class="error-login">
+                {{ error }}
+            </p>
         {% endif %}
+
     </div>
 
 </body>

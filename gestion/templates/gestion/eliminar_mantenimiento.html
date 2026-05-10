@@ -1,21 +1,129 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Eliminar Mantenimiento</title>
-    {% load static %}
+
     <link rel="stylesheet" href="{% static 'gestion/styles.css' %}">
 </head>
+
 <body>
-    <h1>Eliminar Mantenimiento</h1>
 
-    <form method="POST">
-        {% csrf_token %}
-        <p>¿Seguro que deseas eliminar este mantenimiento?</p>
-        <p><strong>{{ mantenimiento }}</strong></p>
+<div class="layout">
 
-        <button type="submit">Sí, eliminar</button>
-        <a href="{% url 'listar_mantenimientos' %}">Cancelar</a>
-    </form>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo-box">
+            <img src="{% static 'gestion/img/logo AAR.png' %}" alt="Logo AAR Gestión">
+        </div>
+
+        <nav class="menu sidebar-menu">
+
+            <a href="{% url 'inicio' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'listar_herramientas' %}">
+                Herramientas
+            </a>
+
+            <a href="{% url 'herramientas_disponibles' %}">
+                Disponibles
+            </a>
+
+            <a href="{% url 'listar_prestamos' %}">
+                Préstamos
+            </a>
+
+            <a href="{% url 'listar_usuarios' %}">
+                Usuarios
+            </a>
+
+            <a href="{% url 'listar_mantenimientos' %}" class="active">
+                Mantenciones
+            </a>
+
+            <a href="{% url 'alertas_atrasos' %}">
+                Alertas
+            </a>
+
+            {% if request.user.usuario.id_rol.nombre_rol == 'Administrador' %}
+
+                <div class="menu-title">
+                    Gestión
+                </div>
+
+                <a href="{% url 'registrar_herramienta' %}">
+                    Registrar herramienta
+                </a>
+
+                <a href="{% url 'registrar_usuario' %}">
+                    Registrar usuario
+                </a>
+
+                <a href="{% url 'registrar_prestamo' %}">
+                    Registrar préstamo
+                </a>
+
+                <a href="{% url 'registrar_mantenimiento' %}">
+                    Registrar mantención
+                </a>
+
+            {% endif %}
+
+        </nav>
+
+        <a href="{% url 'logout' %}" class="logout-sidebar">
+            Cerrar sesión
+        </a>
+
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <div class="topbar">
+            <div>
+                <h1>Eliminar Mantenimiento 🗑️</h1>
+                <p>Confirmación de eliminación de mantenimiento</p>
+            </div>
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <p style="font-size: 18px; margin-bottom: 20px;">
+                ¿Seguro que deseas eliminar este mantenimiento?
+            </p>
+
+            <p style="font-weight: bold; color: #dc2626; margin-bottom: 25px;">
+                {{ mantenimiento }}
+            </p>
+
+            <button type="submit">
+                Sí, eliminar
+            </button>
+
+            <a href="{% url 'listar_mantenimientos' %}"
+               style="
+                    display:block;
+                    text-align:center;
+                    margin-top:15px;
+                    text-decoration:none;
+                    font-weight:bold;
+                    color:#2563eb;
+               ">
+                Cancelar
+            </a>
+
+        </form>
+
+    </main>
+
+</div>
+
 </body>
 </html>
